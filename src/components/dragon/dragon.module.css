@@ -1,0 +1,18 @@
+@keyframes showApp {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.container{
+    padding-top: 60px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation-name: showApp;
+    animation-duration: 2s;
+    animation-iteration-count: unset;
+}

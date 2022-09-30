@@ -1,0 +1,14 @@
+.container{
+    width: 100%;
+    padding: 20px;
+    background-color: #1c1c1ccc;
+    display: flex;
+    position: fixed;
+    top: 0;
+    min-height: 60px;
+    z-index: 2;
+}
+.container h2{
+    font-size: 1em;
+    color: white;
+}
