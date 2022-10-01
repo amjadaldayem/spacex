@@ -1,7 +1,9 @@
+import styles from './slide.module.css'
+
 export default function Slide({link}:{link:string}){
     return (
         <>
-            <div>
+            <div className={styles.container}>
                 <img src={link}/>
             </div>
         </>

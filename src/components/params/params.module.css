@@ -1,0 +1,30 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 103px;
+    flex-wrap: wrap;
+    width: 100%;
+    row-gap: 40px;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    flex-grow: 1;
+    align-items: center;
+    flex-basis: 50%;
+}
+.title{
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.content{
+    color: white;
+}
+@media (max-width: 500px) {
+    .container{
+        padding: 0 20px;
+    }
+}

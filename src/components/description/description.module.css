@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    padding: 103px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container p {
+    color: white;
+    font-size: 17px;
+    line-height: 1.47;
+    font-weight: 400;
+}
+.container h2{
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    line-height: 1.1;
+    font-size: 40px;
+}
+.content{
+    margin: 0 71px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 14px;
+}
+
+@media (max-width: 500px) {
+    .container{
+        padding: 40px 20px;
+    }
+    .content{
+        margin: 0 40px;
+        text-align: center;
+    }
+    .container h2{
+        font-size: 30px;
+    }
+}
