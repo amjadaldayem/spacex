@@ -7,15 +7,25 @@ export const dragonSlice = createSlice({
     initialState,
     reducers: {
         fetch(state){
-            state.isLoading = true;
+          if(!state.savedInStorage){
+              state.isLoading = true;
+          }
         },
         failed(state,action:PayloadAction<string>){
-            state.isLoading = false;
-            state.error = action.payload;
+            if(!state.savedInStorage){
+                state.isLoading = false;
+                state.error = action.payload;
+            }
         },
         getSuccess(state,action:PayloadAction<DragonI>){
             state.isLoading = false;
             state.dragon = action.payload;
+            localStorage.setItem('dragon',JSON.stringify(action.payload));
+        },
+        getDataFromLocalStorage(state){
+            const data = localStorage.getItem('dragon');
+            state.dragon = JSON.parse(data as string);
+            state.isLoading = false;
         }
     }
 })

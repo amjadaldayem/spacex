@@ -12,33 +12,38 @@ import LoaderSpinner from "./components/loader-spinner/loader-spinner";
 function App() {
     const dispatch = useDispatch();
 
+    const savedInStorage = useAppSelector(state => state.savedInStorage);
     const dragon = useAppSelector(state => state.dragon);
     const isLoading = useAppSelector(state => state.isLoading);
     const error = useAppSelector(state => state.error);
 
     useEffect(() => {
-        API.get('').then(r => console.log(r.data))
+        dispatch(dragonSlice.actions.fetch())
+        if(savedInStorage){
+            dispatch(dragonSlice.actions.getDataFromLocalStorage());
+        }
+        // API.get('').then(r => console.log(r.data))
         API.get('')
-            .then(response => dispatch(dragonSlice.actions.getSuccess({
+            .then(({data}) => dispatch(dragonSlice.actions.getSuccess({
                 ...dragon,
-                name: response.data.name,
-                images: response.data.flickr_images,
-                description: response.data.description,
-                wikipedia: response.data.wikipedia,
+                name: data.name,
+                images: data.flickr_images,
+                description: data.description,
+                wikipedia: data.wikipedia,
                 first_flight: {
                     title: 'First flight',
-                    content: response.data.first_flight.replaceAll('-','.')
+                    content: data.first_flight.replaceAll('-','.')
                 },
                 diameter: {
                     title: 'Diameter',
-                    content: response.data.diameter.meters + ' m',
+                    content: data.diameter.meters + ' m',
                 },
                 dry_mass:{
                     title: 'Dry mass',
-                    content: response.data.dry_mass_kg + ' kg',
+                    content: data.dry_mass_kg + ' kg',
                 }
             })))
-            .catch(error => dispatch(dragonSlice.actions.failed(error.message)))
+            .catch(({message}) => dispatch(dragonSlice.actions.failed(message)))
     },[])
 
     return (
@@ -46,7 +51,7 @@ function App() {
           <div className={styles.container}>
               {isLoading && <LoaderSpinner/>}
               {error && <ErrorMessage/>}
-              {!isLoading && <Dragon/>}
+              {!error && !isLoading && <Dragon/>}
           </div>
       </>
     );

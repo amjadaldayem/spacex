@@ -2,8 +2,9 @@ import StateI from "../models/state";
 import {IconBaseProps} from "react-icons";
 
 const initialState:StateI = {
+    savedInStorage: !!localStorage.getItem('dragon'),
     error: null,
-    isLoading: true,
+    isLoading: false,
     dragon : {
         images : [],
         description: null,
