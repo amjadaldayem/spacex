@@ -3,8 +3,9 @@
     overflow-y: hidden;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .container{
         max-height: 200px;
+        overflow: hidden;
     }
 }

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import Dragon from "./components/dragon/dragon";
 import styles from './App.module.css'
@@ -18,32 +18,32 @@ function App() {
     const error = useAppSelector(state => state.error);
 
     useEffect(() => {
-        dispatch(dragonSlice.actions.fetch())
-        if(savedInStorage){
-            dispatch(dragonSlice.actions.getDataFromLocalStorage());
-        }
-        // API.get('').then(r => console.log(r.data))
+        !savedInStorage && dispatch(dragonSlice.actions.startLoading());
+        savedInStorage && dispatch(dragonSlice.actions.setDataFromLocalStorage());
         API.get('')
-            .then(({data}) => dispatch(dragonSlice.actions.getSuccess({
-                ...dragon,
-                name: data.name,
-                images: data.flickr_images,
-                description: data.description,
-                wikipedia: data.wikipedia,
-                first_flight: {
-                    title: 'First flight',
-                    content: data.first_flight.replaceAll('-','.')
-                },
-                diameter: {
-                    title: 'Diameter',
-                    content: data.diameter.meters + ' m',
-                },
-                dry_mass:{
-                    title: 'Dry mass',
-                    content: data.dry_mass_kg + ' kg',
-                }
-            })))
-            .catch(({message}) => dispatch(dragonSlice.actions.failed(message)))
+            .then(({data}) => {
+                dispatch(dragonSlice.actions.getSuccess({
+                    ...dragon,
+                    name: data.name,
+                    images: data.flickr_images,
+                    description: data.description,
+                    wikipedia: data.wikipedia,
+                    first_flight: {
+                        title: 'First flight',
+                        content: data.first_flight.replaceAll('-', '.')
+                    },
+                    diameter: {
+                        title: 'Diameter',
+                        content: data.diameter.meters + ' m',
+                    },
+                    dry_mass: {
+                        title: 'Dry mass',
+                        content: data.dry_mass_kg + ' kg',
+                    }
+                }));
+                dispatch(dragonSlice.actions.stopLoading());
+            })
+            .catch(({message}) => !savedInStorage && dispatch(dragonSlice.actions.failed(message)))
     },[])
 
     return (

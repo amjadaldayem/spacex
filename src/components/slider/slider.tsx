@@ -16,7 +16,12 @@ export default function Slider(){
                     infiniteLoop={true}
                     showIndicators={false}
                 >
-                    {images.map((imageLink,key) => <Slide key={key} link={imageLink}/>)}
+                    {images.map((imageLink,index) => (
+                        <Slide
+                            key={index}
+                            link={imageLink}
+                        />
+                    ))}
                 </Carousel>
             </div>
         </>

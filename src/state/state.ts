@@ -1,5 +1,4 @@
 import StateI from "../models/state";
-import {IconBaseProps} from "react-icons";
 
 const initialState:StateI = {
     savedInStorage: !!localStorage.getItem('dragon'),

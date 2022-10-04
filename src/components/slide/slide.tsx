@@ -4,7 +4,10 @@ export default function Slide({link}:{link:string}){
     return (
         <>
             <div className={styles.container}>
-                <img src={link}/>
+                <img
+                    src={link}
+                    crossOrigin={"anonymous"}
+                />
             </div>
         </>
     )

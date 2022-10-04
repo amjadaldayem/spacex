@@ -23,7 +23,7 @@
 .content{
     color: white;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .container{
         padding: 0 20px;
     }
