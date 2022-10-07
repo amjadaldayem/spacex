@@ -1,5 +1,5 @@
 .container{
-    min-width: 500px;
+    width: 100%;
     overflow: hidden;
     min-height: 300px;
     cursor: pointer;
