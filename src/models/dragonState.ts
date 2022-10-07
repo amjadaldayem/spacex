@@ -1,10 +1,10 @@
 import DragonI from "./dragon";
 
-interface StateI {
+interface DragonStateI {
     savedInStorage: boolean,
     error: null | string,
     isLoading: boolean,
-    dragon : DragonI,
+    dragons : DragonI[] | [],
 }
 
-export default StateI;
+export default DragonStateI;

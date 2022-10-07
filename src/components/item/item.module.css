@@ -1,0 +1,15 @@
+.container{
+    min-width: 500px;
+    overflow: hidden;
+    min-height: 300px;
+    cursor: pointer;
+}
+.container:hover{
+    min-height: 400px;
+}
+.header{
+    background-color: #1c1c1ccc;
+    color: white;
+    padding: 10px;
+    font-size: 12px;
+}

@@ -1,6 +1,5 @@
-import {IconBaseProps} from "react-icons";
-
 interface DragonI{
+    id: string | number,
     images: string[] | [],
     description: null | string,
     wikipedia: string | undefined,

@@ -1,23 +1,21 @@
 import styles from './params.module.css';
 import {BsFillCalendarFill} from "react-icons/bs";
-import {useAppSelector} from "../../hooks/redux";
 import {SiZeromq} from "react-icons/si";
 import {FaWeightHanging} from "react-icons/fa";
+import DragonI from "../../models/dragon";
 
-export default function Params(){
-    const params = useAppSelector(state => {
-        return [
-            {...state.dragon.first_flight,
+export default function Params({dragon}:{dragon:DragonI}){
+    const params =  [
+            {...dragon.first_flight,
                 icon: <BsFillCalendarFill style={{minWidth:'40px', minHeight:'40px', fill: 'white'}}/>
             },
-            {...state.dragon.diameter,
+            {...dragon.diameter,
                 icon:<SiZeromq style={{minWidth:'40px', minHeight:'40px', fill: 'white'}}/>
             },
-            {...state.dragon.dry_mass,
+            {...dragon.dry_mass,
                 icon: <FaWeightHanging style={{minWidth:'40px', minHeight:'40px', fill: 'white'}}/>
             }
         ];
-    })
     return (
         <>
             <div className={styles.container}>

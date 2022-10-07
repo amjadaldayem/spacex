@@ -1,14 +1,17 @@
-import styles from './header.module.css'
+import styles from './dragon-header.module.css'
 import {FaWikipediaW} from "react-icons/fa";
 import {useAppSelector} from "../../hooks/redux";
+import DragonI from "../../models/dragon";
 
-export default function Header(){
-    const name = useAppSelector(state => state.dragon.name);
-    const wikiLink = useAppSelector(state => state.dragon.wikipedia)
+export default function DragonHeader({dragon}:{dragon:DragonI}){
+    const name = dragon.name;
+    const wikiLink = dragon.wikipedia;
     return (
         <>
             <div className={styles.container}>
-                <h3>SpaceX {name}</h3>
+                <h3
+                    children={`SpaceX ${name}`}
+                />
                 <a
                     href={wikiLink}
                     children={<FaWikipediaW/>}

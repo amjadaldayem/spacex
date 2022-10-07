@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    background-color: #1c1c1ccc;
+    border-bottom: 1px solid #484848;
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+    min-height: 40px;
+    justify-content: space-between;
+}
+.exit{
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+.exit:hover{
+    color: red;
+}
+.user{
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: white;
+    column-gap: 10px;
+}

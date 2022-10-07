@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import initialState from "../../state/state";
+import initialState from "../../state/dragonState";
 import DragonI from "../../models/dragon";
 
 export const dragonSlice = createSlice({
@@ -12,17 +12,20 @@ export const dragonSlice = createSlice({
         stopLoading(state){
           state.isLoading = false;
         },
-        failed(state,action:PayloadAction<string>){
+        failed(state,action:PayloadAction<string | null>){
             state.error = action.payload;
         },
-        getSuccess(state,action:PayloadAction<DragonI>){
-            state.dragon = action.payload;
-            localStorage.setItem('dragon',JSON.stringify(action.payload));
+        getSuccess(state,action:PayloadAction<DragonI[]>){
+            const data = JSON.parse(localStorage.getItem('spacex-dragon') as string);
+            state.dragons = action.payload;
+            localStorage.setItem('spacex-dragon',JSON.stringify({...data,content: action.payload}));
         },
         setDataFromLocalStorage(state){
-            const data = localStorage.getItem('dragon');
-            state.dragon = JSON.parse(data as string);
-            state.isLoading = false;
+            const data = JSON.parse(localStorage.getItem('spacex-dragon') as string).content;
+            if(data){
+                state.dragons = data;
+                state.isLoading = false;
+            }
         }
     }
 })

@@ -1,10 +1,10 @@
 import styles from './description.module.css'
-import {useAppSelector} from "../../hooks/redux";
 import {SiSpacex} from "react-icons/si";
+import DragonI from "../../models/dragon";
 
-export default function Description(){
-    const name = useAppSelector(state => state.dragon.name);
-    const description = useAppSelector(state => state.dragon.description);
+export default function Description({dragon}:{dragon:DragonI}){
+    const name = dragon.name;
+    const description = dragon.description;
     return (
         <>
             <div className={styles.container}>

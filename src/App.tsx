@@ -1,57 +1,72 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import Dragon from "./components/dragon/dragon";
 import styles from './App.module.css'
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "./hooks/redux";
-import API from "./utils/API";
+import {Route, Routes, useNavigate} from "react-router-dom";
+import Auth from "./components/auth/auth";
+import Homepage from "./components/homepage/homepage";
+import {authSlice} from "./store/reducers/authSlice";
+import ItemFull from "./components/item-full/item-full";
+import UserHeader from "./components/user-header/user-header";
 import {dragonSlice} from "./store/reducers/dragonSlice";
-import ErrorMessage from "./components/error-message/error-message";
-import LoaderSpinner from "./components/loader-spinner/loader-spinner";
+import API from "./utils/API";
 
 function App() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const savedInStorage = useAppSelector(state => state.savedInStorage);
-    const dragon = useAppSelector(state => state.dragon);
-    const isLoading = useAppSelector(state => state.isLoading);
-    const error = useAppSelector(state => state.error);
+    const userEntered = useAppSelector(({authSlice}) => authSlice.entered);
+    const savedInStorage = useAppSelector(({dragonSlice}) => dragonSlice.savedInStorage);
 
     useEffect(() => {
-        !savedInStorage && dispatch(dragonSlice.actions.startLoading());
-        savedInStorage && dispatch(dragonSlice.actions.setDataFromLocalStorage());
-        API.get('')
-            .then(({data}) => {
-                dispatch(dragonSlice.actions.getSuccess({
-                    ...dragon,
-                    name: data.name,
-                    images: data.flickr_images,
-                    description: data.description,
-                    wikipedia: data.wikipedia,
-                    first_flight: {
-                        title: 'First flight',
-                        content: data.first_flight.replaceAll('-', '.')
-                    },
-                    diameter: {
-                        title: 'Diameter',
-                        content: data.diameter.meters + ' m',
-                    },
-                    dry_mass: {
-                        title: 'Dry mass',
-                        content: data.dry_mass_kg + ' kg',
-                    }
-                }));
-                dispatch(dragonSlice.actions.stopLoading());
-            })
-            .catch(({message}) => !savedInStorage && dispatch(dragonSlice.actions.failed(message)))
+        dispatch(authSlice.actions.logInValidate());
     },[])
+
+    useEffect(() => {
+        if (userEntered !== null){
+            userEntered ? navigate('home') : navigate('auth');
+            !savedInStorage && dispatch(dragonSlice.actions.startLoading());
+            savedInStorage && dispatch(dragonSlice.actions.setDataFromLocalStorage());
+            API.get('')
+                .then(({data}) => {
+                    dispatch(dragonSlice.actions.getSuccess(data.map((dragon:any) => {
+                        return {
+                            id: dragon.id,
+                            name: dragon.name,
+                            images: dragon.flickr_images,
+                            description: dragon.description,
+                            wikipedia: dragon.wikipedia,
+                            first_flight: {
+                                title: 'First flight',
+                                content: dragon.first_flight.replaceAll('-', '.')
+                            },
+                            diameter: {
+                                title: 'Diameter',
+                                content: dragon.diameter.meters + ' m',
+                            },
+                            dry_mass: {
+                                title: 'Dry mass',
+                                content: dragon.dry_mass_kg + ' kg',
+                            }
+                        }
+                    })));
+                    dispatch(dragonSlice.actions.stopLoading());
+                })
+                .catch(({message}) => !savedInStorage && dispatch(dragonSlice.actions.failed(message)))
+        }
+    },[userEntered])
 
     return (
       <>
           <div className={styles.container}>
-              {isLoading && <LoaderSpinner/>}
-              {error && <ErrorMessage/>}
-              {!error && !isLoading && <Dragon/>}
+              <Routes>
+                  <Route path={'/'} element={<UserHeader/>}>
+                      <Route path={'auth'} element={<Auth/>}/>
+                      <Route path={'home'} element={<Homepage/>}/>
+                      <Route path={':id'} element={<ItemFull/>}/>
+                  </Route>
+              </Routes>
           </div>
       </>
     );
