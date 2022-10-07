@@ -28,5 +28,9 @@
     padding: 10px;
     border-radius: 50%;
     bottom: 30px;
+    cursor: pointer;
     right: 30px;
+}
+.home:hover{
+    opacity: 0.5;
 }
